@@ -1,0 +1,21 @@
+{
+  "name": "crm_apis",
+  "module": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch run server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "@types/mssql": "^9.1.6",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mssql": "^11.0.1"
+  }
+}
