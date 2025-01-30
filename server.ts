@@ -1,10 +1,17 @@
 import express from "express";
-//import "dotenv/config";
+import { setupSwagger } from "./src/index";
+import { exampleRouter } from "./src/routes/exampl";
 
-const PORT = process.env.PORT || "";
 const app = express();
-
 app.use(express.json());
+
+//Se inicializa la documentación de la API
+//setupSwagger(app);
+
+//variables
+const PORT = process.env.PORT || "";
+
+app.use("/api", exampleRouter);
 
 app.listen(3000, () => {
   console.log(`Servidor corrriendo en el puerto ${PORT}`);
