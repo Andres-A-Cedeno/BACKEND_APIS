@@ -17,7 +17,7 @@ const dniSchema = pipe(
 
 const nameSchema = pipe(string(), minLength(3), maxLength(50));
 const lastNameSchema = pipe(string(), minLength(3), maxLength(50));
-const emailSchema = pipe(string(), email());
+const emailSchema = pipe(string());
 const passwordSchema = pipe(string(), minLength(8), maxLength(50));
 const nicknameSchema = pipe(string(), minLength(3), maxLength(50));
 const departmentSchema = pipe(number());

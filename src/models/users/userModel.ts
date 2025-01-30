@@ -48,18 +48,21 @@ export const registerUser = async (userData: UserRegister): Promise<any> => {
 export const loginUser = async (userData: UserLogin): Promise<any> => {
   const pool = await connectDB(); // Obtén la conexión al pool de la base de datos
 
+  console.log(userData.email);
+
   try {
     // Buscar el usuario en la base de datos usando el email del userData
     const result = await pool
       .request()
       .input("email", sql.VarChar, userData.email)
-      .query("SELECT * FROM Users WHERE email = @email");
+      .query("SELECT * FROM CP_USUARIOS WHERE CPU_CORREO = @email");
 
+    console.log(result);
     const user = result.recordset[0]; // Obtener el primer resultado de la consulta
 
     // Verificar si el usuario existe
     if (!user) {
-      throw new Error("El usuario no existe.");
+      throw new Error("El usuario no existe ");
     }
 
     // Comparar la contraseña proporcionada con la contraseña almacenada
