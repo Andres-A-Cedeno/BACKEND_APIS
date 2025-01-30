@@ -21,9 +21,20 @@ export const loginUser = async (
     const result = await pool
       .request()
       .input("email", sql.VarChar, email)
-      .query("SELECT * FROM Users WHERE email = @email");
+      .query(
+        "SELECT CPU_CONTRASENA FROM CP_USUARIOS WHERE CPU_CORREO = @email"
+      );
 
     const user = result.recordset[0]; // Obtener el primer resultado de la consulta
+
+    if (!user) {
+      throw new Error("El usuario no existe.");
+    }
+
+    // Verificar si la contraseña está definida
+    if (!user.password) {
+      throw new Error("Contraseña no encontrada.");
+    }
 
     // Verificar si el usuario existe
     if (!user) {

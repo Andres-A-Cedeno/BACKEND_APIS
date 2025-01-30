@@ -9,6 +9,8 @@ export const loginUserController = async (req: Request, res: Response) => {
     // Llamamos al servicio de login
     const tokens = await loginUser(userData);
 
+    console.log(tokens);
+
     // Retornamos los tokens de acceso y refresco
     res.status(200).json({
       message: "Inicio de sesión exitoso",
