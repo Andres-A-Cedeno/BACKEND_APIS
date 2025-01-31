@@ -13,6 +13,6 @@ const PORT = process.env.PORT || "";
 
 app.use("/api", exampleRouter);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log(`Servidor corrriendo en el puerto ${PORT}`);
 });

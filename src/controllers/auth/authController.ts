@@ -1,4 +1,4 @@
-import { loginUser } from "../../services/authService";
+import { loginUserService } from "../../services/authService";
 import type { UserLogin } from "../../schemas/authSchema";
 import type { Request, Response } from "express";
 
@@ -7,10 +7,7 @@ export const loginUserController = async (req: Request, res: Response) => {
 
   try {
     // Llamamos al servicio de login
-    const tokens = await loginUser(userData);
-
-    console.log(tokens);
-
+    const tokens = await loginUserService(userData);
     // Retornamos los tokens de acceso y refresco
     res.status(200).json({
       message: "Inicio de sesión exitoso",

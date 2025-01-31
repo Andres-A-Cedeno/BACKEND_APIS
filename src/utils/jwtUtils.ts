@@ -26,13 +26,10 @@ export const generateToken = (
   //Se genera el token de acceso
   try {
     const accessToken = jwt.sign(Payload, secret, { expiresIn: "1h" });
-
     //Se genera el token de refresco
     const refreshToken = jwt.sign(Payload, refreshSecret, { expiresIn: "3h" });
-    console.log(accessToken);
-    console.log(refreshToken);
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new Error("No se pudo generar el token de acceso o refresco");
+    throw "No se puede generar el token" + error;
   }
 };
