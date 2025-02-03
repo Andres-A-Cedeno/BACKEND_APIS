@@ -4,3 +4,8 @@ export interface Role {
   menu?: string[];
   state?: boolean;
 }
+
+export interface userRole {
+  idrol: string;
+  iduser: string;
+}
