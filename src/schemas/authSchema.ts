@@ -7,6 +7,7 @@ import {
   maxLength,
   number,
   pipe,
+  boolean,
 } from "valibot";
 
 const dniSchema = pipe(
@@ -25,13 +26,22 @@ const lastNameSchema = pipe(
   minLength(3, "El apellido debe tener 3 caracteres"),
   maxLength(50, "El apellido no puede tener más de 50 caracteres")
 );
-const emailSchema = pipe(string());
+const emailSchema = pipe(string(), email());
 const passwordSchema = pipe(string(), minLength(3), maxLength(50));
 const nicknameSchema = pipe(string(), minLength(3), maxLength(50));
 const departmentSchema = pipe(number());
+const statusSchema = pipe(boolean());
 
 /**
  * Schema para validar los datos del usuario.
+ * @param {string} dni El DNI del usuario.
+ * @param {string} name El nombre del usuario.
+ * @param {string} lastName El apellido del usuario.
+ * @param {string} email El email del usuario.
+ * @param {string} password La contraseña del usuario.
+ * @param {string} nickname El nickname del usuario.
+ * @param {number} department El departamento del usuario.
+ *
  */
 export const authSchema = object({
   dni: dniSchema,

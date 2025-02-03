@@ -5,7 +5,7 @@ const config = {
   password: process.env.DB_PASSWORD || "",
   server: process.env.DB_SERVER || "",
   database: process.env.DB_DATABASE || "",
-  port: parseInt(process.env.DB_SERVER_PORT || "1234"),
+  port: parseInt(process.env.DB_SERVER_PORT || "1433"),
   options: {
     encrypt: true,
     trustServerCertificate: true,

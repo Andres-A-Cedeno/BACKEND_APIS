@@ -1,10 +1,26 @@
 import { generateToken } from "../utils/jwtUtils";
-import type { UserLogin } from "../models/users/userModel";
+import type { UserLogin, UserRegister } from "../models/users/userModel";
 // import type { UserLogin } from "../schemas/authSchema";
-import { authLoginSchema } from "../schemas/authSchema";
-import { safeParse } from "valibot";
-import { UserRepository } from "../repositories/userRepository";
+import { authRepository } from "../repositories/userRepository";
 import { compare } from "bcrypt";
+
+export const registerUserService = async (
+  userData: UserRegister
+): Promise<string> => {
+  try {
+    const result = await new authRepository().registerUser(userData);
+
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      // console.error("aa" + error.message);
+      throw new Error(error.message);
+    } else {
+      // console.error("Error en el registro:", error);
+      throw new Error("Error en el registro.");
+    }
+  }
+};
 
 /**
  * Función para realizar el login de un usuario.
@@ -17,7 +33,8 @@ export const loginUserService = async (
   //compare the userData
   try {
     const { email, password } = userData;
-    const userHashPassword = await new UserRepository().LoginUser(userData);
+
+    const userHashPassword = await new authRepository().LoginUser(userData);
 
     if (!userHashPassword) {
       throw new Error("Usuario no encontrado");
