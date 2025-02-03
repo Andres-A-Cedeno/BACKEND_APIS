@@ -26,7 +26,7 @@ const lastNameSchema = pipe(
   minLength(3, "El apellido debe tener 3 caracteres"),
   maxLength(50, "El apellido no puede tener más de 50 caracteres")
 );
-const emailSchema = pipe(string(), email());
+const emailSchema = pipe(string());
 const passwordSchema = pipe(string(), minLength(3), maxLength(50));
 const nicknameSchema = pipe(string(), minLength(3), maxLength(50));
 const departmentSchema = pipe(number());

@@ -15,7 +15,7 @@ export class authRepository {
     const userDataValidated = safeParse(authSchema, userData);
 
     if (!userDataValidated.success) {
-      console.log(userDataValidated.issues[0].message);
+      // console.log(userDataValidated.issues[0].message);
       throw new Error(userDataValidated.issues[0].message);
     }
     try {
@@ -62,9 +62,7 @@ export class authRepository {
     //validamos el formato de los datos
     const userDataValidated = safeParse(authLoginSchema, userData);
     if (!userDataValidated.success) {
-      throw new Error(
-        "Formato de datos incorrecto" + JSON.stringify(userDataValidated.issues)
-      );
+      throw new Error("Formato de datos incorrecto");
     }
 
     try {
@@ -77,7 +75,7 @@ export class authRepository {
         .output("ou_salida", sql.VarChar, salida)
         .execute("SP_LOGIN_USUARIO");
       const user = result.recordset[0]; // Obtener el primer resultado de la consulta
-      console.log("👍 Usuario Obtenido correctamente");
+
       return user.CPU_CONTRASENA || null;
     } catch (error) {
       throw new Error("Error al iniciar sesion, verifique los datos" + error);
