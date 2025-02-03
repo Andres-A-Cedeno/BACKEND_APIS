@@ -2,6 +2,8 @@ import { rolesRepository } from "../repositories/roles/rolesRepository";
 import type { Role } from "../models/rolModels";
 
 export class rolesService {
+  // const rolsRepository = new rolesRepository();
+
   async createRole(roleData: Role): Promise<string> {
     try {
       const result = await new rolesRepository().createRole(roleData);

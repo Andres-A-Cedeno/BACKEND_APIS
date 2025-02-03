@@ -59,7 +59,6 @@ export class authRepository {
    * @returns {string} devuelve la contrasena del usuario
    */
   async LoginUser(userData: UserLogin): Promise<string> {
-    //validamos el formato de los datos
     const userDataValidated = safeParse(authLoginSchema, userData);
     if (!userDataValidated.success) {
       throw new Error("Formato de datos incorrecto");

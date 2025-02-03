@@ -27,6 +27,13 @@ export const registerUserController = async (
   }
 };
 
+/**
+ * @async
+ * @param req
+ * @param res
+ * @returns {Promise<Response>}
+ */
+
 export const loginUserController = async (
   req: Request,
   res: Response
@@ -46,6 +53,6 @@ export const loginUserController = async (
     });
   } catch (error) {
     console.error("Error en el login:", error);
-    return res.status(400).json({ message: "Error en el login." });
+    return res.status(400).json({ message: "Error en el login." + error });
   }
 };

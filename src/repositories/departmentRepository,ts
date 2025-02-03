@@ -1,0 +1,24 @@
+import { Department } from "../models/departmentModel";
+import { connectDB, closeDB } from "../config/database/dbConnection";
+
+export class departmentRepository {
+  private pool: any;
+
+  constructor() {
+    this.pool = connectDB();
+  }
+
+  async getAllDepartments(): Promise<Department[]> {
+    try {
+      const result = await this.pool.query(
+        `SELECT CPD_ID, CPD_NOMBRE FROM CP_DEPARTAMENTOS`
+      );
+      console.log(result);
+      return result.recordset;
+    } catch (error) {
+      throw new Error("Error en la consulta: " + error);
+    } finally {
+      closeDB;
+    }
+  }
+}

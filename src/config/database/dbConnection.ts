@@ -43,7 +43,7 @@ export const closeDB = async (): Promise<void> => {
       console.error("❌ No se pudo cerrar la conexión:", error);
       throw "No se pudo cerrar la conexión" + error;
     } finally {
-      pool = null; // Reinicia la conexión
+      pool = null;
     }
   }
 };
