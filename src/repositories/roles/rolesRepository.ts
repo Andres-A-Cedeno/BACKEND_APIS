@@ -1,6 +1,9 @@
 import { closeDB, connectDB } from "../../config/database/dbConnection";
 import sql from "mssql";
 import type { Role, userRole } from "../../models/rolModels";
+import { json } from "express";
+
+interface userRoles extends Array<userRole> {}
 
 export class rolesRepository {
   async createRole(roleData: Role): Promise<string> {
@@ -50,22 +53,18 @@ export class rolesRepository {
   }
 
   async createUserRol(
-    userRoldData: userRole
+    userRoldData: userRoles
   ): Promise<{ message: string; errorVariable: string }[]> {
     //Inicializamos la conexion a la base de datos
     const pool = await connectDB();
 
-    // const Data: userRole[] = {
-    //   idrol: "",
-    //   iduser: "1",
-    // };
-
     try {
-      const data = JSON.stringify(userRoldData);
+      const DataParsed = JSON.stringify(userRoldData);
+      console.log("Informacion parseada" + DataParsed);
 
       const result = await pool
         .request()
-        .input("ou_rolesUsuarios", sql.VarChar, data)
+        .input("ou_rolesUsuarios", sql.VarChar, DataParsed)
         .output("ou_mensajeSalida", sql.VarChar(500))
         .output("ou_errorVariable", sql.VarChar(500))
         .execute("SP_CREARACTUALIZAR_ROLUSUARIO");

@@ -1,4 +1,5 @@
-import type { Role } from "../models/rolModels";
+import { _stringify, type ArgsAction } from "valibot";
+import type { Role, userRole } from "../models/rolModels";
 import { rolesService } from "../services/rolesService";
 import type { Request, Response } from "express";
 
@@ -50,14 +51,19 @@ export class rolesController {
     res: Response
   ): Promise<Response> => {
     try {
-      const result = await new rolesService().createUserRole(req.body);
+      interface userRoles extends Array<userRole> {}
+
+      const userRoles: userRoles = req.body;
+      console.log("Obtenido en el controlador" + userRoles);
+
+      const result = await new rolesService().createUserRole(userRoles);
       return res.status(200).json({
         message: result,
       });
     } catch (error) {
       if (error instanceof Error) {
         // console.error("Error en el registro:", error.message);
-        return res.status(400).json({ message: error.message });
+        return res.status(400).json({ error: error.message });
       }
       return res.status(400).json({ message: error });
     }

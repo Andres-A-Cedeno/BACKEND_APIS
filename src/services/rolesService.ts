@@ -1,6 +1,8 @@
 import { rolesRepository } from "../repositories/roles/rolesRepository";
 import type { Role, userRole } from "../models/rolModels";
+import type { ErrorMessage } from "../models/errorModel";
 
+interface userRoles extends Array<userRole> {}
 export class rolesService {
   private rolsRepository: rolesRepository;
 
@@ -34,16 +36,20 @@ export class rolesService {
   }
 
   async createUserRole(
-    userRoleData: userRole
+    userRoleData: userRoles
   ): Promise<{ message: string; errorVariable: string }[]> {
-    console.log(userRoleData);
+    console.log("Informacion recibida services" + userRoleData);
 
     try {
       const result = await this.rolsRepository.createUserRol(userRoleData);
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(error.message);
+        const ErrorMessage: ErrorMessage = {
+          message: error.message,
+          data: [],
+        };
+        throw ErrorMessage;
       }
       throw new Error("Error desconocido" + error);
     }
