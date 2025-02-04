@@ -2,6 +2,7 @@ import { _stringify, type ArgsAction } from "valibot";
 import type { Role, userRole } from "../models/rolModels";
 import { rolesService } from "../services/rolesService";
 import type { Request, Response } from "express";
+import { RequestError } from "mssql";
 
 export class rolesController {
   createRoleController = async (
@@ -52,20 +53,24 @@ export class rolesController {
   ): Promise<Response> => {
     try {
       interface userRoles extends Array<userRole> {}
-
       const userRoles: userRoles = req.body;
-      console.log("Obtenido en el controlador" + userRoles);
 
       const result = await new rolesService().createUserRole(userRoles);
       return res.status(200).json({
         message: result,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        // console.error("Error en el registro:", error.message);
-        return res.status(400).json({ error: error.message });
+      //console.error("Error en el registro:", error);
+
+      if (error instanceof RequestError) {
+        const errorMes = new RequestError(error.message);
+        console.error(
+          "Error en el registro este Controller:",
+          errorMes.message
+        );
+        return res.status(401).json({ error: JSON.parse(errorMes.message) });
       }
-      return res.status(400).json({ message: error });
+      return res.status(401).json({ error });
     }
   };
 }
