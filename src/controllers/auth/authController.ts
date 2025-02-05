@@ -11,6 +11,8 @@ export const registerUserController = async (
 ): Promise<Response> => {
   const userData: UserRegister = req.body;
 
+  console.log("Obtenido del frontend", userData);
+
   try {
     const result = await registerUserService(userData);
     return res.status(200).json({
@@ -44,6 +46,8 @@ export const loginUserController = async (
     // Llamamos al servicio de login
     const tokens = await loginUserService(userData);
     // Retornamos los tokens de acceso y refresco
+
+    res.cookie;
     return res.status(200).json({
       message: "Inicio de sesión exitoso",
       data: {

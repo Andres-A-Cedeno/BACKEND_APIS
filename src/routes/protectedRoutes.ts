@@ -26,7 +26,7 @@ protectedRoutes.post(
 
 protectedRoutes.get(
   "/getDepartments",
-  authenticateToken,
+  //authenticateToken,
   department.getDepartments
 );
 
