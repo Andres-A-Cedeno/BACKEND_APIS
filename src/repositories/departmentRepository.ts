@@ -16,9 +16,7 @@ export class departmentRepository {
           nombre: department.CPD_NOMBRE,
         })
       );
-
       console.log(department);
-
       return department;
     } catch (error) {
       throw new Error("Error en la consulta: " + error);

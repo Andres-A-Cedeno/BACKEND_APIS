@@ -1,6 +1,8 @@
 import { rolesRepository } from "../repositories/roles/rolesRepository";
 import type { Role, userRole } from "../models/rolModels";
+import { RequestError } from "mssql";
 
+interface userRoles extends Array<userRole> {}
 export class rolesService {
   private rolsRepository: rolesRepository;
 
@@ -33,19 +35,13 @@ export class rolesService {
     }
   }
 
-  async createUserRole(
-    userRoleData: userRole
-  ): Promise<{ message: string; errorVariable: string }[]> {
-    console.log(userRoleData);
-
+  async createUserRole(userRoleData: userRoles): Promise<string> {
     try {
       const result = await this.rolsRepository.createUserRol(userRoleData);
       return result;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-      throw new Error("Error desconocido" + error);
+      //console.error("Error en el registro Servicio:", error);
+      throw error;
     }
   }
 }

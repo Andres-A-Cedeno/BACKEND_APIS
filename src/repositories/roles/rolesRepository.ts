@@ -1,6 +1,9 @@
 import { closeDB, connectDB } from "../../config/database/dbConnection";
-import sql from "mssql";
+import sql, { RequestError } from "mssql";
 import type { Role, userRole } from "../../models/rolModels";
+import type { ErrorMessage } from "../../models/executionModel";
+
+interface userRoles extends Array<userRole> {}
 
 export class rolesRepository {
   async createRole(roleData: Role): Promise<string> {
@@ -49,44 +52,39 @@ export class rolesRepository {
     }
   }
 
-  async createUserRol(
-    userRoldData: userRole
-  ): Promise<{ message: string; errorVariable: string }[]> {
+  async createUserRol(userRoldData: userRoles): Promise<string> {
     //Inicializamos la conexion a la base de datos
     const pool = await connectDB();
 
-    // const Data: userRole[] = {
-    //   idrol: "",
-    //   iduser: "1",
-    // };
-
     try {
-      const data = JSON.stringify(userRoldData);
+      const DataParsed = JSON.stringify(userRoldData);
+      console.log("Informacion parseada" + DataParsed);
 
       const result = await pool
         .request()
-        .input("ou_rolesUsuarios", sql.VarChar, data)
+        .input("ou_rolesUsuarios", sql.VarChar, DataParsed)
         .output("ou_mensajeSalida", sql.VarChar(500))
         .output("ou_errorVariable", sql.VarChar(500))
         .execute("SP_CREARACTUALIZAR_ROLUSUARIO");
 
-      const mensajeSalida: string = result.output.ou_mensajeSalida;
-      const errorVariable: string = result.output.ou_errorVariable;
-
-      // Devolvemos un array con los objetos que contienen el mensaje y la variable de error
-      return [
-        {
-          message:
-            (mensajeSalida as string) ||
-            "Usuario y rol actualizados correctamente",
-          errorVariable: errorVariable || "No hay error",
-        },
-      ];
+      return result.output.ou_mensajeSalida;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
+      //console.log("Primer error:", error);
+      if (error instanceof RequestError) {
+        // const errorMessages = {
+        //   message: error.message, // Mensaje de error
+        //   code: error.code,
+        //   details: error.stack,
+        // };
+
+        // console.log("error sin parsear", error.message);
+        // console.log("error parseado", JSON.parse(error.message));
+
+        // console.error("Error en el registro:", error.message);
+
+        throw new RequestError(error.message);
       }
-      throw new Error("" + error);
+      throw new Error("Error: " + error); // Lanzamos el error con un formato claro
     } finally {
       closeDB();
     }
