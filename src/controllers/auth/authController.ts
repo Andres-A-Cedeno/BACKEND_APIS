@@ -55,8 +55,13 @@ export const loginUserController = async (
         refreshToken: tokens.refreshToken,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error en el login:", error);
+    const errorcode = error.message.slice(-3);
+    console.log(errorcode);
+    if (errorcode === "401") {
+      return res.status(401).json({ message: "Credenciales incorrectas" });
+    }
     return res.status(400).json({ message: "Error en el login." + error });
   }
 };

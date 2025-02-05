@@ -77,7 +77,9 @@ export class authRepository {
 
       return user.CPU_CONTRASENA || null;
     } catch (error) {
-      throw new Error("Error al iniciar sesion, verifique los datos" + error);
+      throw new Error(
+        "Error al iniciar sesion, verifique los datos" + error + 401
+      );
     } finally {
       closeDB();
     }

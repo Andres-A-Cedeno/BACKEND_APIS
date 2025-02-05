@@ -38,11 +38,11 @@ export const loginUserService = async (
     const userHashPassword = await new authRepository().LoginUser(userData);
 
     if (!userHashPassword) {
-      throw new Error("Usuario no encontrado");
+      throw new Error("NonExistentUser");
     }
     const passwordMatch = await compare(password, userHashPassword);
     if (!passwordMatch) {
-      throw new Error("Contraseña incorrecta");
+      throw new Error("WrongPassword" + 401);
     }
 
     console.log("Email Obtenido" + email);
@@ -56,6 +56,6 @@ export const loginUserService = async (
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new Error("Error en" + error);
+    throw new Error("" + error);
   }
 };
