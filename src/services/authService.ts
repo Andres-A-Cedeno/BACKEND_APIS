@@ -8,6 +8,7 @@ export const registerUserService = async (
   userData: UserRegister
 ): Promise<string> => {
   try {
+    console.log("Obtenido del controlador", userData);
     const result = await new authRepository().registerUser(userData);
 
     return result;
@@ -37,12 +38,16 @@ export const loginUserService = async (
     const userHashPassword = await new authRepository().LoginUser(userData);
 
     if (!userHashPassword) {
-      throw new Error("Usuario no encontrado");
+      throw new Error("NonExistentUser");
     }
     const passwordMatch = await compare(password, userHashPassword);
     if (!passwordMatch) {
-      throw new Error("Contraseña incorrecta");
+      throw new Error("WrongPassword" + 401);
     }
+
+    console.log("Email Obtenido" + email);
+
+    console.log("Contraseña Obtenida" + userHashPassword);
 
     const { accessToken, refreshToken } = generateToken(
       email,
@@ -51,6 +56,6 @@ export const loginUserService = async (
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new Error("Error en" + error);
+    throw new Error("" + error);
   }
 };

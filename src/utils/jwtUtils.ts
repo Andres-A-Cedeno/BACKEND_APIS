@@ -16,7 +16,8 @@ export const generateToken = (
   dni: string
 ): { accessToken: string; refreshToken: string } => {
   //Se valida que los secretos sean definidos
-  if (!secret || !refreshSecret) throw new Error("Faltan secretos");
+  if (!secret || !refreshSecret)
+    throw new Error("Faltan secretos definir en .env");
 
   const Payload: JwtPayload = {
     email,

@@ -70,7 +70,7 @@ export type UserRegister = {
   password: string;
   nickname: string;
   department: number;
-  status: string;
+  status?: string;
   role?: number;
   refreshToken?: string;
 };

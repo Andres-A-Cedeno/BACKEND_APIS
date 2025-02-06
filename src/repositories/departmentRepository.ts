@@ -13,7 +13,7 @@ export class departmentRepository {
       console.log(result.recordset);
 
       const department: Department[] = result.recordset.map(
-        (department: any) => ({
+        (department: { CPD_ID: number; CPD_NOMBRE: string }) => ({
           id: department.CPD_ID,
           nombre: department.CPD_NOMBRE,
         })
