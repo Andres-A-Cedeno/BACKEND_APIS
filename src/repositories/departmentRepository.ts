@@ -10,6 +10,8 @@ export class departmentRepository {
         .request()
         .query(`SELECT CPD_ID, CPD_NOMBRE FROM CP_DEPARTAMENTOS`);
 
+      console.log(result.recordset);
+
       const department: Department[] = result.recordset.map(
         (department: any) => ({
           id: department.CPD_ID,

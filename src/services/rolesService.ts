@@ -44,4 +44,21 @@ export class rolesService {
       throw error;
     }
   }
+
+  async getAllRolesUsersData(): Promise<Role[]> {
+    try {
+      const result = await this.rolsRepository.gettingAllRolesUsersData();
+      return result;
+    } catch (error) {
+      if (error instanceof RequestError) {
+        const errorMes = new RequestError(error.message);
+        console.error(
+          "Error en el registro este Controller:",
+          errorMes.message
+        );
+        throw new RequestError(error.message);
+      }
+      throw new Error("Error: " + error);
+    }
+  }
 }

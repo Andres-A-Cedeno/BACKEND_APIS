@@ -5,6 +5,12 @@ import type { Request, Response } from "express";
 import { RequestError } from "mssql";
 
 export class rolesController {
+  rolService = new rolesService();
+
+  construnctor() {
+    this.rolService = new rolesService();
+  }
+
   createRoleController = async (
     req: Request,
     res: Response
@@ -12,7 +18,7 @@ export class rolesController {
     const roleData: Role = req.body;
 
     try {
-      const result = await new rolesService().createRole(roleData);
+      const result = await this.rolService.createRole(roleData);
       return res.status(200).json({
         message: result,
       });
@@ -33,7 +39,7 @@ export class rolesController {
     const roleData: Role = req.body;
 
     try {
-      const result = await new rolesService().updateRole(roleData);
+      const result = await this.rolService.updateRole(roleData);
       return res.status(200).json({
         message: result,
       });
@@ -55,7 +61,7 @@ export class rolesController {
       interface userRoles extends Array<userRole> {}
       const userRoles: userRoles = req.body;
 
-      const result = await new rolesService().createUserRole(userRoles);
+      const result = await this.rolService.createUserRole(userRoles);
       return res.status(200).json({
         message: result,
       });
@@ -69,6 +75,28 @@ export class rolesController {
           errorMes.message
         );
         return res.status(401).json({ error: JSON.parse(errorMes.message) });
+      }
+      return res.status(401).json({ error });
+    }
+  };
+
+  getAllRolesUsersData = async (
+    req: Request,
+    res: Response
+  ): Promise<Response> => {
+    try {
+      const rolesUsersData = await this.rolService.getAllRolesUsersData();
+      return res.status(200).json(rolesUsersData);
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorMes = new RequestError(error.message);
+        console.error(
+          "Error en el registro este Controller:",
+          errorMes.message
+        );
+        return res
+          .status(401)
+          .json({ error: JSON.stringify(errorMes.message) });
       }
       return res.status(401).json({ error });
     }

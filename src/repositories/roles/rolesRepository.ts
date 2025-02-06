@@ -1,5 +1,5 @@
 import { closeDB, connectDB } from "../../config/database/dbConnection";
-import sql, { RequestError } from "mssql";
+import sql, { MAX, RequestError } from "mssql";
 import type { Role, userRole } from "../../models/rolModels";
 import type { ErrorMessage } from "../../models/executionModel";
 
@@ -52,6 +52,11 @@ export class rolesRepository {
     }
   }
 
+  /**
+   *
+   * @param userRoldData
+   * @returns
+   */
   async createUserRol(userRoldData: userRoles): Promise<string> {
     //Inicializamos la conexion a la base de datos
     const pool = await connectDB();
@@ -71,6 +76,7 @@ export class rolesRepository {
     } catch (error) {
       //console.log("Primer error:", error);
       if (error instanceof RequestError) {
+        //Debug
         // const errorMessages = {
         //   message: error.message, // Mensaje de error
         //   code: error.code,
@@ -85,6 +91,47 @@ export class rolesRepository {
         throw new RequestError(error.message);
       }
       throw new Error("Error: " + error); // Lanzamos el error con un formato claro
+    } finally {
+      closeDB();
+    }
+  }
+
+  /**
+   * Función para obtener los roles y sus usuarios.
+   * Esta función realiza una consulta a la base de datos utilizando un procedimiento almacenado
+   * y devuelve un array de objetos que representan los roles y sus usuarios.
+   *
+   * @async
+   * @function gettingAllRolesUsersData
+   * @returns {Promise<Role[]>} Una promesa que resuelve en un array de objetos `Role`.
+   * @throws {Error} Si ocurre un error durante la ejecución de la consulta o el procesamiento de los datos.
+   *
+   * .
+   */
+
+  async gettingAllRolesUsersData(): Promise<Role[]> {
+    const pool = await connectDB();
+    try {
+      const result = await pool
+        .request()
+        .output("ou_databaseResponse", sql.VarChar(MAX))
+        .execute("SP_BUSCAR_ROLESUSUARIODATA");
+      // console.log(
+      //   "Resultado de la consulta",
+      //   JSON.parse(result.output.ou_databaseResponse)
+      // );
+      const response = JSON.parse(result.output.ou_databaseResponse);
+      const RolesData: Role[] = JSON.parse(response.Roles).map((role: any) => ({
+        id: role.ID_ROL,
+        name: role.NOMBRE_ROL,
+        menu: role.PESTAÑAS,
+      }));
+      console.log("Relacion de los roles", RolesData);
+      return RolesData;
+    } catch (error) {
+      if (error instanceof RequestError) {
+      }
+      throw new Error("Error: " + error);
     } finally {
       closeDB();
     }

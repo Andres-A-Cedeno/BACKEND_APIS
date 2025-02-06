@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { request, Router } from "express";
 import { authenticateToken } from "../middleware/authentication";
 import { rolesController, departmentController } from "../controllers";
 
@@ -26,8 +26,14 @@ protectedRoutes.post(
 
 protectedRoutes.get(
   "/getDepartments",
-  authenticateToken,
+  //authenticateToken,
   department.getDepartments
+);
+
+protectedRoutes.get(
+  "/getRolesUsersData",
+  //authenticateToken,
+  rolController.getAllRolesUsersData
 );
 
 export default protectedRoutes;
