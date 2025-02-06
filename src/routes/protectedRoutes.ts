@@ -30,7 +30,7 @@ protectedRoutes.get(
   department.getDepartments
 );
 
-protectedRoutes.get(
+protectedRoutes.post(
   "/getRolesUsersData",
   //authenticateToken,
   rolController.getAllRolesUsersData

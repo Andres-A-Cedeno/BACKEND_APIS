@@ -5,6 +5,11 @@ import type { ErrorMessage } from "../../models/executionModel";
 
 interface userRoles extends Array<userRole> {}
 
+interface gettingRoll {
+  idRol: string;
+  accion: string;
+}
+
 export class rolesRepository {
   async createRole(roleData: Role): Promise<string> {
     const pool = await connectDB();
@@ -109,22 +114,30 @@ export class rolesRepository {
    * .
    */
 
-  async gettingAllRolesUsersData(): Promise<Role[]> {
+  async gettingAllRolesUsersData(RoleData: any): Promise<Role[]> {
     const pool = await connectDB();
+
+    const RolData: gettingRoll = RoleData;
+
+    console.log("Informacion Obtenida", RolData);
+
     try {
       const result = await pool
         .request()
+        .input("ou_idRol", sql.VarChar, RolData.idRol)
+        .input("ou_accion", sql.VarChar, RolData.accion)
         .output("ou_databaseResponse", sql.VarChar(MAX))
         .execute("SP_BUSCAR_ROLESUSUARIODATA");
       // console.log(
       //   "Resultado de la consulta",
       //   JSON.parse(result.output.ou_databaseResponse)
       // );
+
       const response = JSON.parse(result.output.ou_databaseResponse);
       const RolesData: Role[] = JSON.parse(response.Roles).map((role: any) => ({
         id: role.ID_ROL,
         name: role.NOMBRE_ROL,
-        menu: role.PESTAÑAS,
+        menu: role.MENU,
       }));
       console.log("Relacion de los roles", RolesData);
       return RolesData;

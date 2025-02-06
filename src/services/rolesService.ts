@@ -45,9 +45,13 @@ export class rolesService {
     }
   }
 
-  async getAllRolesUsersData(): Promise<Role[]> {
+  async getAllRolesUsersData(RoleData: any): Promise<Role[]> {
+    //const rolsData = JSON.stringify(RoleData);
+
     try {
-      const result = await this.rolsRepository.gettingAllRolesUsersData();
+      const result = await this.rolsRepository.gettingAllRolesUsersData(
+        RoleData
+      );
       return result;
     } catch (error) {
       if (error instanceof RequestError) {

@@ -85,7 +85,10 @@ export class rolesController {
     res: Response
   ): Promise<Response> => {
     try {
-      const rolesUsersData = await this.rolService.getAllRolesUsersData();
+      const RoleData = req.body;
+      const rolesUsersData = await this.rolService.getAllRolesUsersData(
+        RoleData
+      );
       return res.status(200).json(rolesUsersData);
     } catch (error) {
       if (error instanceof Error) {
