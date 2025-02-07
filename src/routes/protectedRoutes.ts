@@ -9,12 +9,12 @@ const department = new departmentController();
 
 protectedRoutes.post(
   "/createRole",
-  authenticateToken,
+  //authenticateToken,
   rolController.createRoleController
 );
 protectedRoutes.put(
   "/updateRole",
-  authenticateToken,
+  //authenticateToken,
   rolController.updadateRoleController
 );
 

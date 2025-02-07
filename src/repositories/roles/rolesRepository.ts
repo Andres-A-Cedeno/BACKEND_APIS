@@ -16,6 +16,7 @@ export class rolesRepository {
     try {
       const result = await pool
         .request()
+        .input("ou_idRol", sql.VarChar, roleData.id)
         .input("ou_nombreRol", sql.VarChar, roleData.name)
         .input("ou_accion", sql.VarChar, "CREAR")
         .input("ou_menu", sql.VarChar, roleData.menu)
@@ -39,6 +40,7 @@ export class rolesRepository {
     try {
       const result = await pool
         .request()
+        .input("ou_idRol", sql.VarChar, roleData.id)
         .input("ou_nombreRol", sql.VarChar, roleData.name)
         .input("ou_accion", sql.VarChar, "ACTUALIZAR")
         .input("ou_menu", sql.VarChar, roleData.menu)
