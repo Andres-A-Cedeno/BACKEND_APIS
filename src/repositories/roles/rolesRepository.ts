@@ -132,15 +132,26 @@ export class rolesRepository {
       //   "Resultado de la consulta",
       //   JSON.parse(result.output.ou_databaseResponse)
       // );
-
       const response = JSON.parse(result.output.ou_databaseResponse);
-      const RolesData: Role[] = JSON.parse(response.Roles).map((role: any) => ({
-        id: role.ID_ROL,
-        name: role.NOMBRE_ROL,
-        menu: role.MENU,
-      }));
-      console.log("Relacion de los roles", RolesData);
-      return RolesData;
+
+      if (RolData.accion === "BUSCAR") {
+        const RolesData = JSON.parse(response.Data).map((role: any) => ({
+          id: role.CPM_ID,
+          menu: role.CPM_PESTANAS,
+        }));
+        //console.log("Menus: ", RolesData);
+        return RolesData;
+      } else {
+        const RolesData: Role[] = JSON.parse(response.Roles).map(
+          (role: any) => ({
+            id: role.ID_ROL,
+            name: role.NOMBRE_ROL,
+            menu: role.MENU,
+          })
+        );
+        //console.log("Relacion de los roles", RolesData);
+        return RolesData;
+      }
     } catch (error) {
       if (error instanceof RequestError) {
       }
