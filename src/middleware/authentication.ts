@@ -19,10 +19,11 @@ export const authenticateToken = async (
   next: NextFunction
 ): Promise<void> => {
   const token = req.headers["authorization"];
+  //console.log(req.headers);
 
   //const token = authHeader?.split(" ")[1];
 
-  //console.log(token);
+  console.log("ELTOKEN ES: ", token);
 
   if (!token) {
     res.status(401).json({ message: "Inicie sesión para acceder al recurso." });
@@ -31,6 +32,7 @@ export const authenticateToken = async (
   try {
     const decoded = verify(token!, process.env.JWT_SECRET!) as JwtPayload;
     req.user = decoded;
+    console.log("error after", req.user);
     next();
   } catch (error) {
     res.status(403).json({ message: "Su sesión ha caducado" });

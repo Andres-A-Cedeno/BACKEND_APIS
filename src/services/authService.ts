@@ -30,12 +30,24 @@ export const registerUserService = async (
  */
 export const loginUserService = async (
   userData: UserLogin
-): Promise<{ accessToken: string; refreshToken: string }> => {
+): Promise<{ accessToken: string; refreshToken: string; userInfo: object }> => {
   //compare the userData
   try {
     const { email, password } = userData;
 
-    const userHashPassword = await new authRepository().LoginUser(userData);
+    const userRecovered = await new authRepository().LoginUser(userData);
+
+    const userInfo = {
+      cedula: userRecovered.CPU_CEDULA,
+      nombre: userRecovered.CPU_NOMBRE,
+      apellido: userRecovered.CPU_APELLIDO,
+      nickname: userRecovered.CPU_NICKNAME,
+      correo: userRecovered.CPU_CORREO,
+      id_rol: userRecovered.CPR_ID,
+      id_depto: userRecovered.CPD_ID,
+    };
+
+    const userHashPassword = userRecovered.CPU_CONTRASENA;
 
     if (!userHashPassword) {
       throw new Error("NonExistentUser");
@@ -54,7 +66,7 @@ export const loginUserService = async (
       userHashPassword
     );
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, userInfo };
   } catch (error) {
     throw new Error("" + error);
   }

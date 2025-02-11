@@ -99,9 +99,9 @@ export class rolesController {
         );
         return res
           .status(401)
-          .json({ error: JSON.stringify(errorMes.message) });
+          .json({ error3: JSON.stringify(errorMes.message) });
       }
-      return res.status(401).json({ error });
+      return res.status(401).json({ error4: error });
     }
   };
 }

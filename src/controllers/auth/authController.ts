@@ -53,6 +53,7 @@ export const loginUserController = async (
       data: {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
+        userinfo: tokens.userInfo,
       },
     });
   } catch (error: any) {

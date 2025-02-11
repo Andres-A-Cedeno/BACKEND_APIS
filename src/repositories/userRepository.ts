@@ -56,9 +56,9 @@ export class authRepository {
   /**
    *
    * @param {object} userData Datos del usuario a iniciar sesión.
-   * @returns {string} devuelve la contrasena del usuario
+   * @returns {object} devuelve array con informacion del usuario
    */
-  async LoginUser(userData: UserLogin): Promise<string> {
+  async LoginUser(userData: UserLogin) {
     const userDataValidated = safeParse(authLoginSchema, userData);
     if (!userDataValidated.success) {
       throw new Error("Formato de datos incorrecto");
@@ -75,7 +75,7 @@ export class authRepository {
         .execute("SP_LOGIN_USUARIO");
       const user = result.recordset[0]; // Obtener el primer resultado de la consulta
 
-      return user.CPU_CONTRASENA || null;
+      return user || null;
     } catch (error) {
       throw new Error(
         "Error al iniciar sesion, verifique los datos" + error + 401
