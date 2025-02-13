@@ -35,15 +35,13 @@ export const generateToken = (
   }
 };
 
-export const getbyToken = (token: string): { data: string | JwtPayload } => {
-  if (!secret || !refreshSecret)
-    throw new Error("Faltan secretos definir en .env");
+export const getbyToken = (
+  token: string
+): { verified: string | JwtPayload } => {
+  if (!secret || !refreshSecret) throw "Faltan secretos definir en .env";
   try {
-    const decoded = "token en utils" + typeof secret;
     const verified = jwt.verify(token, secret);
-    console.log(decoded);
-    console.log(verified);
-    return { data: decoded };
+    return { verified };
   } catch (error) {
     throw "Error en utils" + error;
   }

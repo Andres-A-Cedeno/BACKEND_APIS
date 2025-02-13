@@ -76,14 +76,8 @@ export const infoUserController = async (
   const token: any = req.body;
 
   try {
-    /*return res
-      .status(200)
-      .json({ message: "info se ejecuta", token_enviado: token.token });*/
     const info = await infoUserService(token);
-    return res.status(200).json({
-      message: "Informacion obtenida de servicio",
-      service_res: info,
-    });
+    return res.status(200).json(info);
   } catch (error: any) {
     console.log("error getting userInfo", error);
     return res.status(400).json({ message: "Error en el user-info" + error });

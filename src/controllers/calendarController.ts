@@ -11,9 +11,10 @@ export class calendarController {
 
   getAllTask = async (req: Request, res: Response): Promise<Response> => {
     console.log("Datos obtenidos desde el frontend", req.body);
+    const data = req.body;
     try {
-      const result = await this.calendarService.getAllTask();
-      return res.status(200).json("Correcta");
+      const result = await this.calendarService.getAllTask(data);
+      return res.status(200).json(result);
     } catch (error) {
       if (error instanceof Error) {
         const errorMes = new RequestError(error.message);

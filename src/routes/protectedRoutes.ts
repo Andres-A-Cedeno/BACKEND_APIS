@@ -38,7 +38,7 @@ protectedRoutes.post(
   rolController.getAllRolesUsersData
 );
 
-protectedRoutes.get("/getAllTask", calendar.getAllTask);
+protectedRoutes.post("/getAllTask", calendar.getAllTask);
 protectedRoutes.post("/createTask", calendar.createTask);
 
 export default protectedRoutes;

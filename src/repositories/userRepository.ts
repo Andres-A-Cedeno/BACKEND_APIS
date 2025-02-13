@@ -1,5 +1,5 @@
 import { connectDB, closeDB } from "../config/database/dbConnection";
-import sql from "mssql";
+import sql, { MAX } from "mssql";
 import type { UserLogin, UserRegister } from "../models/users/userModel";
 import { authLoginSchema, authSchema } from "../schemas/authSchema";
 import { safeParse } from "valibot";
@@ -85,15 +85,22 @@ export class authRepository {
     }
   }
 
-  async InfoUser(token: String) {
-    let salida = "";
-    const pool = await connectDB();
-    const result = await pool
-      .request()
-      .input("ou_token", sql.VarChar, token)
-      .output("ou_salida", sql.VarChar, salida)
-      .execute("SP_INFO_USUARIO");
-    const user = result.recordset[0];
-    return user || null;
+  async InfoUser(mail: String) {
+    try {
+      const pool = await connectDB();
+      const result = await pool
+        .request()
+        .input("ou_mail", sql.VarChar, mail)
+        .output("ou_salida", sql.VarChar(MAX))
+        .execute("SP_INFO_USUARIO");
+      const user = JSON.parse(result.recordset[0].Response);
+      return user || null;
+    } catch (error) {
+      throw new Error(
+        "Error al iniciar sesion, verifique los datos" + error + 401
+      );
+    } finally {
+      closeDB();
+    }
   }
 }

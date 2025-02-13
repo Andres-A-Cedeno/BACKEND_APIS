@@ -7,9 +7,9 @@ export class calendarService {
     this.calendarReposito = new calendarRepository();
   }
 
-  async getAllTask(): Promise<any> {
+  async getAllTask(data: any): Promise<any> {
     try {
-      const result = await this.calendarReposito.getAllTask();
+      const result = await this.calendarReposito.getAllTask(data);
       return result;
     } catch (error) {
       throw error;

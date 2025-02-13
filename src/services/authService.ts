@@ -72,16 +72,15 @@ export const loginUserService = async (
   }
 };
 
-export const infoUserService = async (
-  tokenRecieved: any
-): Promise<{ info: any }> => {
+export const infoUserService = async (tokenRecieved: any): Promise<any> => {
   try {
     const { token } = tokenRecieved;
-    const decoded = getbyToken(token);
-    console.log(decoded);
-    return { info: "userService se ejecuta" };
+    const decoded: any = getbyToken(token);
+    const mailLoged = decoded.verified.email;
+    const userRecovered = await new authRepository().InfoUser(mailLoged);
+    return userRecovered;
   } catch (error: any) {
     console.log(error);
-    throw new Error("error en servicio", error);
+    throw new Error("error en servicio" + error);
   }
 };
