@@ -1,9 +1,11 @@
 import {
+  infoUserService,
   loginUserService,
   registerUserService,
 } from "../../services/authService";
 import type { UserLogin, UserRegister } from "../../schemas/authSchema";
 import type { Request, Response } from "express";
+import type { Type } from "typescript";
 
 export const registerUserController = async (
   req: Request,
@@ -64,5 +66,26 @@ export const loginUserController = async (
       return res.status(401).json({ message: "Credenciales incorrectas" });
     }
     return res.status(400).json({ message: "Error en el login." + error });
+  }
+};
+
+export const infoUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const token: any = req.body;
+
+  try {
+    /*return res
+      .status(200)
+      .json({ message: "info se ejecuta", token_enviado: token.token });*/
+    const info = await infoUserService(token);
+    return res.status(200).json({
+      message: "Informacion obtenida de servicio",
+      service_res: info,
+    });
+  } catch (error: any) {
+    console.log("error getting userInfo", error);
+    return res.status(400).json({ message: "Error en el user-info" + error });
   }
 };

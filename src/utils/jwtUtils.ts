@@ -34,3 +34,17 @@ export const generateToken = (
     throw "No se puede generar el token" + error;
   }
 };
+
+export const getbyToken = (token: string): { data: string | JwtPayload } => {
+  if (!secret || !refreshSecret)
+    throw new Error("Faltan secretos definir en .env");
+  try {
+    const decoded = "token en utils" + typeof secret;
+    const verified = jwt.verify(token, secret);
+    console.log(decoded);
+    console.log(verified);
+    return { data: decoded };
+  } catch (error) {
+    throw "Error en utils" + error;
+  }
+};

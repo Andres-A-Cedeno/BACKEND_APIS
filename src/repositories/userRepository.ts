@@ -84,4 +84,16 @@ export class authRepository {
       closeDB();
     }
   }
+
+  async InfoUser(token: String) {
+    let salida = "";
+    const pool = await connectDB();
+    const result = await pool
+      .request()
+      .input("ou_token", sql.VarChar, token)
+      .output("ou_salida", sql.VarChar, salida)
+      .execute("SP_INFO_USUARIO");
+    const user = result.recordset[0];
+    return user || null;
+  }
 }

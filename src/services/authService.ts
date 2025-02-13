@@ -1,4 +1,4 @@
-import { generateToken } from "../utils/jwtUtils";
+import { generateToken, getbyToken } from "../utils/jwtUtils";
 import type { UserLogin, UserRegister } from "../models/users/userModel";
 // import type { UserLogin } from "../schemas/authSchema";
 import { authRepository } from "../repositories/userRepository";
@@ -69,5 +69,19 @@ export const loginUserService = async (
     return { accessToken, refreshToken, userInfo };
   } catch (error) {
     throw new Error("" + error);
+  }
+};
+
+export const infoUserService = async (
+  tokenRecieved: any
+): Promise<{ info: any }> => {
+  try {
+    const { token } = tokenRecieved;
+    const decoded = getbyToken(token);
+    console.log(decoded);
+    return { info: "userService se ejecuta" };
+  } catch (error: any) {
+    console.log(error);
+    throw new Error("error en servicio", error);
   }
 };
