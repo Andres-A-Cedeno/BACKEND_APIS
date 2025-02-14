@@ -2,12 +2,14 @@ import { request, Router } from "express";
 import { authenticateToken } from "../middleware/authentication";
 import { rolesController, departmentController } from "../controllers";
 import { calendarController } from "../controllers/calendarController";
+import { clientController } from "../controllers/clientController";
 
 export const protectedRoutes = Router();
 
 const rolController = new rolesController();
 const department = new departmentController();
 const calendar = new calendarController();
+const client = new clientController();
 
 protectedRoutes.post(
   "/createRole",
@@ -40,5 +42,7 @@ protectedRoutes.post(
 
 protectedRoutes.post("/getAllTask", calendar.getAllTask);
 protectedRoutes.post("/createTask", calendar.createTask);
+
+protectedRoutes.get("/getClientNames", client.getClientsList);
 
 export default protectedRoutes;

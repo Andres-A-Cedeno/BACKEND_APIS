@@ -12,7 +12,7 @@ export class calendarService {
       const result = await this.calendarReposito.getAllTask(data);
       return result;
     } catch (error) {
-      throw error;
+      throw error + "service error";
     }
   }
 
