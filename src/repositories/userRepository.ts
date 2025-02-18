@@ -48,8 +48,6 @@ export class authRepository {
         console.error("Error desconocido:", error);
         throw new Error("Ha ocurrido un error desconocido.");
       }
-    } finally {
-      //closeDB();
     }
   }
 
@@ -80,8 +78,6 @@ export class authRepository {
       throw new Error(
         "Error al iniciar sesion, verifique los datos" + error + 401
       );
-    } finally {
-      closeDB();
     }
   }
 
@@ -95,11 +91,9 @@ export class authRepository {
         .execute("SP_INFO_USUARIO");
       const user = JSON.parse(result.recordset[0].Response);
       return user || null;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error details:", error); // Log full error message
-      throw new Error("Error in func InfoUser: " + error.message);
-    } finally {
-      closeDB();
+      throw new Error("Error in func InfoUser: " + error);
     }
   }
 }
