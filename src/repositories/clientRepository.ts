@@ -22,8 +22,6 @@ export class clientRepository {
       return client;
     } catch (error) {
       throw new Error("Error en la consulta: " + error);
-    } finally {
-      closeDB();
     }
   }
 }

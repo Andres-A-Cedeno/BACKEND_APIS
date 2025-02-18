@@ -42,8 +42,6 @@ export class calendarRepository {
       return result.recordset;
     } catch (error) {
       throw new Error("Error en la consulta: " + error);
-    } finally {
-      closeDB();
     }
   }
 
@@ -83,8 +81,6 @@ export class calendarRepository {
       return result.recordset;
     } catch (error) {
       throw error;
-    } finally {
-      closeDB();
     }
   }
 }

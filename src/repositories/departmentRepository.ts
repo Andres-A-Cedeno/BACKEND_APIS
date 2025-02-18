@@ -22,8 +22,6 @@ export class departmentRepository {
       return department;
     } catch (error) {
       throw new Error("Error en la consulta: " + error);
-    } finally {
-      closeDB();
     }
   }
 }
