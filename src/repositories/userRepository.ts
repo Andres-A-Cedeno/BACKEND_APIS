@@ -1,6 +1,6 @@
-import { connectDB, closeDB } from "../config/database/dbConnection";
-import sql, { MAX } from "mssql";
-import type { UserLogin, UserRegister } from "../models/users/userModel";
+import { connectDB } from "../config/database/dbConnection";
+import sql, { MAX, RequestError } from "mssql";
+import type { User, UserLogin, UserRegister } from "../models/users/userModel";
 import { authLoginSchema, authSchema } from "../schemas/authSchema";
 import { safeParse } from "valibot";
 import { hash } from "bcrypt";
@@ -75,9 +75,7 @@ export class authRepository {
 
       return user || null;
     } catch (error) {
-      throw new Error(
-        "Error al iniciar sesion, verifique los datos" + error + 401
-      );
+      throw new Error("Error al iniciar sesion, verifique los datos" + error);
     }
   }
 
@@ -94,6 +92,43 @@ export class authRepository {
     } catch (error: unknown) {
       console.error("Error details:", error); // Log full error message
       throw new Error("Error in func InfoUser: " + error);
+    }
+  }
+
+  async getActiveUsers(): Promise<User[]> {
+    try {
+      const pool = await connectDB();
+      console.log("Conexión a la base de datos establecida.");
+
+      // Crear una variable para almacenar la respuesta
+      let outputResponse = "";
+
+      const result = await pool
+        .request()
+        .output("ou_databaseResponse", sql.VarChar(MAX), outputResponse) // Agregar el parámetro de salida
+        .execute("SP_OBTENER_USUARIOS_ACTIVOS");
+
+      console.log("Resultado del procedimiento almacenado:", result);
+
+      // Obtener la respuesta del parámetro de salida
+      const response = result.output.ou_databaseResponse;
+
+      if (!response) {
+        throw new Error("El procedimiento no devolvió datos válidos.");
+      }
+
+      console.log("Respuesta del procedimiento:", response);
+
+      // Parsear la respuesta JSON
+      const users: User[] = JSON.parse(response); // Parsear directamente el JSON
+      return users;
+    } catch (error: unknown) {
+      console.error("Error en getActiveUsers:", error);
+      if (error instanceof RequestError) {
+        throw new Error(error.message);
+      } else {
+        throw new Error("Ha ocurrido un error desconocido.");
+      }
     }
   }
 }
