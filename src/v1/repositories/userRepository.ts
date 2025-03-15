@@ -3,7 +3,7 @@ import sql, { MAX } from "mssql";
 import type { UserLogin, UserRegister } from "../models/users/userModel";
 import { authLoginSchema, authSchema } from "../schemas/authSchema";
 import { safeParse } from "valibot";
-import { hash } from "bcrypt";
+import { hashPassword } from "../utils/authUtils";
 
 export class authRepository {
   /**
@@ -15,11 +15,10 @@ export class authRepository {
     const userDataValidated = safeParse(authSchema, userData);
 
     if (!userDataValidated.success) {
-      // console.log(userDataValidated.issues[0].message);
       throw new Error(userDataValidated.issues[0].message);
     }
     try {
-      const passwordHash = await hash(userData.password, 10);
+      const passwordHash = await hashPassword(userData.password);
 
       const pool = await connectDB();
       const result = await pool

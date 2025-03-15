@@ -1,8 +1,11 @@
 import { generateToken, getbyToken } from "../utils/jwtUtils";
 import type { UserLogin, UserRegister } from "../models/users/userModel";
-// import type { UserLogin } from "../schemas/authSchema";
 import { authRepository } from "../repositories/userRepository";
-import { compare } from "bcrypt";
+import {
+  validateUserData,
+  hashPassword,
+  comparePasswords,
+} from "../utils/authUtils";
 
 export const registerUserService = async (
   userData: UserRegister
@@ -14,10 +17,8 @@ export const registerUserService = async (
     return result;
   } catch (error) {
     if (error instanceof Error) {
-      // console.error("aa" + error.message);
       throw new Error(error.message);
     } else {
-      // console.error("Error en el registro:", error);
       throw new Error("Error en el registro.");
     }
   }
@@ -31,7 +32,6 @@ export const registerUserService = async (
 export const loginUserService = async (
   userData: UserLogin
 ): Promise<{ accessToken: string; refreshToken: string; userInfo: object }> => {
-  //compare the userData
   try {
     const { email, password } = userData;
 
@@ -52,7 +52,7 @@ export const loginUserService = async (
     if (!userHashPassword) {
       throw new Error("NonExistentUser");
     }
-    const passwordMatch = await compare(password, userHashPassword);
+    const passwordMatch = await comparePasswords(password, userHashPassword);
     if (!passwordMatch) {
       throw new Error("WrongPassword" + 401);
     }

@@ -50,7 +50,7 @@ export class calendarRepository {
   async createTask(data: any): Promise<any> {
     const pool = await connectDB();
 
-    console.log("Datos recibidos repositorio", data);
+    console.log("Datos recibidos reositorio", data);
 
     const {
       userDni,

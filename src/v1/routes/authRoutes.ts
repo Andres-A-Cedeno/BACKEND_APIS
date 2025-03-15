@@ -7,8 +7,8 @@ import {
 
 export const authRoutes = Router();
 
-authRoutes.post("/register", registerUserController);
-authRoutes.post("/login", loginUserController);
-authRoutes.post("/get-info", infoUserController);
+authRoutes.post("auth/register", registerUserController);
+authRoutes.post("auth/login", loginUserController);
+//authRoutes.post("/get-info", infoUserController);
 
 export default authRoutes;

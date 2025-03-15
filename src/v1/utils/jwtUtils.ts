@@ -3,7 +3,6 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 const secret = process.env.JWT_SECRET;
 const refreshSecret = process.env.REFRESH_TOKEN;
 
-//Generamos el token
 
 /**
  * Genera un Access Token y un Refresh Token
