@@ -30,8 +30,6 @@ export class rolesRepository {
         throw new Error(error.message);
       }
       throw new Error("Error: " + error);
-    } finally {
-      closeDB();
     }
   }
 
@@ -54,8 +52,6 @@ export class rolesRepository {
         throw new Error(error.message);
       }
       throw new Error("Error: " + error);
-    } finally {
-      closeDB();
     }
   }
 
@@ -98,8 +94,6 @@ export class rolesRepository {
         throw new RequestError(error.message);
       }
       throw new Error("Error: " + error); // Lanzamos el error con un formato claro
-    } finally {
-      closeDB();
     }
   }
 
@@ -158,8 +152,6 @@ export class rolesRepository {
       if (error instanceof RequestError) {
       }
       throw new Error("Error: " + error);
-    } finally {
-      closeDB();
     }
   }
 }

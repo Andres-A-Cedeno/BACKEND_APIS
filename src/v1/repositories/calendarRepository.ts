@@ -38,12 +38,10 @@ export class calendarRepository {
         .output("ou_databaseResponse", sql.VarChar(MAX))
         .execute("SP_CREARACTUALIZAR_ACTIVIDADES");
 
-      console.log(result.recordset);
+      //console.log(result.recordset);
       return result.recordset;
     } catch (error) {
       throw new Error("Error en la consulta: " + error);
-    } finally {
-      closeDB();
     }
   }
 
@@ -83,8 +81,6 @@ export class calendarRepository {
       return result.recordset;
     } catch (error) {
       throw error;
-    } finally {
-      closeDB();
     }
   }
 }

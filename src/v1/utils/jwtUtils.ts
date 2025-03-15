@@ -42,6 +42,6 @@ export const getbyToken = (
     const verified = jwt.verify(token, secret);
     return { verified };
   } catch (error) {
-    throw "Error en utils" + error;
+    throw "Error en utils: " + error;
   }
 };
