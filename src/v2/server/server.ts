@@ -4,6 +4,7 @@ import authUserRoutes from "../authUser/authUserRoutes.js";
 import departmentRoutes from "../Departments/routesDepartments.js";
 import rolesRoutes from "../Roles/RolesRoutes.js";
 import { ENV } from "./config/dbConfig.js";
+import cors from "cors";
 
 export class Server {
   private app: express.Application;
@@ -14,6 +15,7 @@ export class Server {
     this.app = express();
     this.app.use(express.json());
     //this.connection = new Connection();
+    this.app.use(cors());
     this.routes();
 
     process.on("SIGINT", async () => {

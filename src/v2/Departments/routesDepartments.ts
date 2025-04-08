@@ -10,7 +10,7 @@ const departmentController = new DepartmentController(departmentUseCases);
 /**
  * Define the routes to get the departments
  */
-departmentRoutes.post(
+departmentRoutes.get(
   "/departments",
   departmentController.getDepartments.bind(departmentController)
 );

@@ -1,9 +1,10 @@
 {
   "name": "crm_apis",
   "module": "server.ts",
-  "type": "module",
   "scripts": {
-    "dev": "bun --watch run server.ts"
+    "dev": "bun --watch run server.ts",
+    "build": "tsc && npm run copy-files",
+    "copy-files": "xcopy /E /I /Y .\\src\\v2\\server\\config .\\dist\\src\\v2\\server\\config"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -17,17 +18,27 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/mssql": "^9.1.6",
+    "@types/nodemailer": "^6.4.17",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui": "^3.52.4",
     "@types/swagger-ui-express": "^4.1.7",
+    "@types/uuid": "^10.0.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "graceful-fs": "^4.2.11",
     "jsonwebtoken": "^9.0.2",
+    "mock-aws-s3": "^4.0.2",
     "mssql": "^11.0.1",
+    "nock": "^14.0.3",
+    "nodemailer": "^6.10.0",
+    "semver": "^7.7.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "uuid": "^11.1.0",
     "valibot": "^1.0.0-beta.14"
   }
 }

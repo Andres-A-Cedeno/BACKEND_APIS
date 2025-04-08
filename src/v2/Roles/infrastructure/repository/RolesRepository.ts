@@ -2,7 +2,6 @@ import { Connection } from "../../../server/database/Connection";
 import type { IRoles } from "../../domain/interfaces/IRoles";
 import { RoleModel } from "../../domain/entities/RolesEntity";
 import sql, { MAX } from "mssql";
-import type { Role } from "../../../../models/rolModels";
 
 export class RolesRepository implements IRoles {
   private pool!: sql.ConnectionPool;

@@ -1,5 +1,9 @@
 import type { IRoles } from "../domain/interfaces/IRoles";
 
+
+/**
+ * Class to 
+ */
 export class RolesUseCases {
   constructor(private rolesRepository: IRoles) {}
 

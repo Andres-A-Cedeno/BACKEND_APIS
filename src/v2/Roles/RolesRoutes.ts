@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { RolesController } from "./infrastructure/controllers/RolesController";
-import { RolesUseCases } from "./application/RolesUseCases";
-import { RolesRepository } from "./infrastructure/repository/RolesRepository";
+import { RolesController } from "./infrastructure/controllers/RolesController.js";
+import { RolesUseCases } from "./application/RolesUseCases.js";
+import { RolesRepository } from "./infrastructure/repository/RolesRepository.js";
 
 const rolesRoutes = Router();
 

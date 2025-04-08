@@ -1,4 +1,4 @@
-import { AuthEnum } from "../enum/AuthEnum.js";
+import { AuthEnumState } from "../enum/AuthEnum.js";
 
 export interface IUserRegister {
   dni: string;
@@ -7,7 +7,7 @@ export interface IUserRegister {
   lastName?: string;
   email?: string;
   password?: string;
-  status?: AuthEnum;
+  status?: AuthEnumState;
   departament?: number;
   departamentName?: string;
   role?: number;

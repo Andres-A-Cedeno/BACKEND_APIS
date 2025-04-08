@@ -1,4 +1,4 @@
-import { AuthEnum } from "../enum/AuthEnum.js";
+import { AuthEnumState } from "../enum/AuthEnum.js";
 
 interface IAuthUser {
   email: string;
@@ -6,7 +6,7 @@ interface IAuthUser {
   id?: string;
   nickname?: string;
   name?: string;
-  status?: AuthEnum;
+  status?: AuthEnumState;
   lastName?: string;
   dni?: string;
   departament?: string;

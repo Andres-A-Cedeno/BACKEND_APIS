@@ -1,4 +1,4 @@
-import { config } from "../config/dbConfig";
+import { config } from "../config/dbConfig.js";
 import sql from "mssql";
 
 export class Connection {

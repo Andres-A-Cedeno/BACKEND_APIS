@@ -1,18 +1,19 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
+import { ENV } from "../../server/config/dbConfig.js";
 
 export class JwtService {
-  private static readonly ACCESS_SECRET: string = process.env.JWT_SECRET!;
-  private static readonly REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
-  private static readonly ACCESS_EXPIRATION: string =
-    process.env.ACCESS_EXPIRATION!;
-  private static readonly REFRESH_EXPIRATION = process.env.REFRESH_EXPIRATION;
+  private static readonly ACCESS_SECRET: string = ENV.jwtSecret!;
+  private static readonly REFRESH_SECRET = ENV.jwtRefreshSecret;
+  private static readonly ACCESS_EXPIRATION: string = ENV.jwtAccessExpiration!;
+  private static readonly REFRESH_EXPIRATION = ENV.jwtRefreshExpiration;
 
   /**
    * Genera un Access Token para el usuario
    */
   static generateToken(payload: JwtPayload): string {
+    const ACCESS_EXPIRATION = JwtService.ACCESS_EXPIRATION!;
     return jwt.sign(payload, JwtService.ACCESS_SECRET!, {
-      expiresIn: JwtService.ACCESS_EXPIRATION,
+      expiresIn: "1h",
     });
   }
 
@@ -21,7 +22,7 @@ export class JwtService {
    */
   static generateRefreshToken(payload: object): string {
     return jwt.sign(payload, JwtService.REFRESH_SECRET!, {
-      expiresIn: JwtService.REFRESH_EXPIRATION,
+      expiresIn: "7d",
     });
   }
 
