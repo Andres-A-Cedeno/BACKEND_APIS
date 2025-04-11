@@ -12,8 +12,13 @@
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui": "^3.52.4",
         "@types/swagger-ui-express": "^4.1.7",
+<<<<<<< .mine
         "@types/uuid": "^10.0.0",
         "aws-sdk": "^2.1692.0",
+||||||| .r80946
+=======
+        "@types/uuid": "^10.0.0",
+>>>>>>> .r80994
         "bcrypt": "^5.1.1",
         "child_process": "^1.0.2",
         "cors": "^2.8.5",
