@@ -2,11 +2,13 @@ export class MenuModel {
   private _pathMenu: string;
   private _titleScreen: string;
   private _iconMenu: string;
+  private _component: string;
 
-  constructor(pathMenu: string, titleScreen: string, iconMenu: string) {
+  constructor(pathMenu: string, titleScreen: string, iconMenu: string, component: string) {
     this._pathMenu = pathMenu;
     this._titleScreen = titleScreen;
     this._iconMenu = iconMenu;
+    this._component = component;
   }
 
   get pathMenu() {
@@ -19,6 +21,10 @@ export class MenuModel {
     return this._iconMenu;
   }
 
+  get component() {
+    return this._component;
+  }
+
   set pathMenu(pathMenu: string) {
     this._pathMenu = pathMenu;
   }
@@ -29,11 +35,16 @@ export class MenuModel {
     this._iconMenu = iconMenu;
   }
 
+  set component(component: string) {
+    this._component = component;
+  }
+
   toJSON() {
     return {
       pathMenu: this._pathMenu,
       titleScreen: this._titleScreen,
       iconMenu: this._iconMenu,
+      component: this._component,
     };
   }
 }

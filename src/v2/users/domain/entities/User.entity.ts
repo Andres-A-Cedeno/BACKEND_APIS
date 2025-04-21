@@ -15,7 +15,8 @@ export class UserEntity {
     private lastName: string,
     private state: boolean,
     private nickname: string,
-    private email: string
+    private email: string,
+    private department: string
   ) {}
 
   // Getters
@@ -40,6 +41,9 @@ export class UserEntity {
 
   get getEmail(): string {
     return this.email
+  }
+  get getDepartment(): string {
+    return this.department
   }
 
   // Setters
@@ -67,6 +71,10 @@ export class UserEntity {
     this.email = value
   }
 
+  set setDepartment(value: string) {
+    this.department = value
+  }
+
   // Método toJSON
   toJSON() {
     return {
@@ -76,6 +84,7 @@ export class UserEntity {
       state: this.state,
       nickname: this.nickname,
       email: this.email,
+      department: this.department,
     }
   }
 }

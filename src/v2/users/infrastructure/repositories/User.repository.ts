@@ -37,7 +37,8 @@ export class UserRepository implements IUser {
             user.lastName,
             user.state,
             user.nickName,
-            user.email
+            user.email,
+            user.department
           )
       )
       return userArray
@@ -53,7 +54,8 @@ export class UserRepository implements IUser {
       "tetst",
       true,
       "tetingg",
-      "testing@test.com"
+      "testing@test.com",
+      "KAS"
     )
   }
 }

@@ -1,18 +1,20 @@
-import { UserEntity } from "../entities/User.entity"
+import { UserEntity } from "../entities/User.entity";
 
 export interface IUser {
   /**
    * Obtener todos los usuarios
    * @returns Una lista de todos los usuarios
    */
-  getAllUser(): Promise<UserEntity[]>
+  getAllUser(): Promise<UserEntity[]>;
 
   /**
    * Obtener un usuario por su DNI
    * @param dni El DNI del usuario
    * @returns El usuario encontrado o null si no existe
    */
-  getUserByDni(dni: string): Promise<UserEntity | null>
+  getUserByDni(dni: string): Promise<UserEntity | null>;
+
+  //getProfileByToken()
 
   // /**
   //  * Crear un nuevo usuario

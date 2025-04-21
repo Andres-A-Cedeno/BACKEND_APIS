@@ -18,8 +18,12 @@ export class MenuRepository implements IMenu {
         .execute("SP_BUSCARMENUROL");
 
       const menu: MenuModel[] = request.recordset.map(
-        (menu: { path: string; tabName: string; icon: string }) =>
-          new MenuModel(menu.path, menu.tabName, menu.icon)
+        (menu: {
+          path: string;
+          tabName: string;
+          icon: string;
+          component: string;
+        }) => new MenuModel(menu.path, menu.tabName, menu.icon, menu.component)
       );
 
       return menu;
