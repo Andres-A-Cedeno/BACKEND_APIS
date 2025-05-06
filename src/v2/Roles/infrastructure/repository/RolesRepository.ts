@@ -2,6 +2,27 @@ import { Connection } from "../../../server/database/Connection";
 import type { IRoles } from "../../domain/interfaces/IRoles";
 import { RoleModel } from "../../domain/entities/RolesEntity";
 import sql, { MAX } from "mssql";
+import { TypeProcess } from "../../../enums/typeProcess";
+
+interface Screens {
+  name: string;
+}
+
+interface User {
+  fullName: string;
+}
+
+export interface RolesResponse {
+  nameRol: string;
+  screens: Screens;
+  users: User;
+}
+
+interface RawRoleData {
+  nameRol: string;
+  screens?: { name: string }[];
+  users?: { fullName: string }[];
+}
 
 export class RolesRepository implements IRoles {
   private pool!: sql.ConnectionPool;
@@ -35,7 +56,10 @@ export class RolesRepository implements IRoles {
 
   async read(): Promise<RoleModel[]> {
     try {
-      const result = await this.pool.request().execute("SP_BUSCAR_ROL");
+      const result = await this.pool
+        .request()
+        .input("ou_tipoProceso", sql.VarChar, TypeProcess.GET)
+        .execute("SP_BUSCAR_ROL");
 
       //console.log("Resultado de la consulta", result.recordset[0]);
 
@@ -79,5 +103,33 @@ export class RolesRepository implements IRoles {
 
   async delete(idRol: number): Promise<{ message: string }> {
     return { message: "Rol desactivado correctamente" };
+  }
+
+  async getUserRoles(): Promise<RolesResponse[]> {
+    const result = await this.pool
+      .request()
+      .input("ou_tipoProceso", sql.VarChar, TypeProcess.READ)
+      .execute("SP_BUSCAR_ROL");
+
+    const jsonKey = Object.keys(result.recordset[0])[0];
+    const rolesData = JSON.parse(result.recordset[0][jsonKey]);
+
+    const roles: RolesResponse[] = rolesData.map((rol: RawRoleData) => {
+      const screens = Array.isArray(rol.screens)
+        ? rol.screens.map((s) => s.name)
+        : [];
+      const users = Array.isArray(rol.users)
+        ? rol.users.map((u) => u.fullName)
+        : [];
+
+      return {
+        nameRol: rol.nameRol,
+        screens,
+        users,
+      };
+    });
+
+    console.log("roles", roles);
+    return roles;
   }
 }

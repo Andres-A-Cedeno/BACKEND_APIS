@@ -30,4 +30,13 @@ export class RolesController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async getUserRoles(req: Request, res: Response) {
+    try {
+      const roles = await this.rolesUseCases.getUserRoles();
+      res.status(200).json(roles);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }

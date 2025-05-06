@@ -11,9 +11,8 @@ export class JwtService {
    * Genera un Access Token para el usuario
    */
   static generateToken(payload: JwtPayload): string {
-    const ACCESS_EXPIRATION = JwtService.ACCESS_EXPIRATION!;
     return jwt.sign(payload, JwtService.ACCESS_SECRET!, {
-      expiresIn: "1h",
+      expiresIn: JwtService.ACCESS_EXPIRATION,
     });
   }
 
@@ -22,19 +21,21 @@ export class JwtService {
    */
   static generateRefreshToken(payload: object): string {
     return jwt.sign(payload, JwtService.REFRESH_SECRET!, {
-      expiresIn: "7d",
+      expiresIn: JwtService.REFRESH_EXPIRATION,
     });
   }
 
   /**
    * Verifica y decodifica un Access Token
    */
-  static verifyToken(token: string): string | JwtPayload | null {
+  static verifyToken(
+    token: string
+  ): string | JwtPayload | { dni: string; email: string } {
     try {
-      return jwt.verify(token, JwtService.ACCESS_SECRET!);
+      return jwt.verify(token, JwtService.ACCESS_SECRET);
     } catch (error) {
       console.error("❌ Error verificando token:", error);
-      return null;
+      throw new Error("Token Invalido o expirado");
     }
   }
 
@@ -43,10 +44,34 @@ export class JwtService {
    */
   static verifyRefreshToken(token: string): string | JwtPayload | null {
     try {
-      return jwt.verify(token, JwtService.REFRESH_SECRET!);
+      return jwt.verify(token, JwtService.REFRESH_SECRET);
     } catch (error) {
       console.error("❌ Error verificando refresh token:", error);
-      return null;
+      throw new Error("Refresh Token Invalido o expirado");
+    }
+  }
+
+  static refreshAccessToken(refreshToken: string): {
+    accessToken: string;
+    refreshToken: string;
+  } {
+    try {
+      const decoded = this.verifyRefreshToken(refreshToken);
+
+      const newAccessToken = this.generateToken({
+        email: decoded.email,
+        dni: decoded.dni,
+      });
+
+      const newRefreshToken = this.generateRefreshToken({
+        email: decoded.email,
+        dni: decoded.dni,
+      });
+
+      return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+    } catch (error) {
+      console.error("❌ Error al refrescar el Access Token:", error);
+      throw new Error("No se pudo generar el access token");
     }
   }
 }

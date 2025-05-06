@@ -50,7 +50,9 @@ export class AuthUserRepositoty implements IAuthUser {
 
       const encryptPassword = await result.output.ou_salida;
 
-      const hashPassword = compare(password, encryptPassword);
+      console.log("Encrypt password", encryptPassword);
+
+      const hashPassword = await compare(password, encryptPassword);
       if (!hashPassword) {
         throw new Error("Contraseña incorrecta");
       }
@@ -83,7 +85,7 @@ export class AuthUserRepositoty implements IAuthUser {
         refreshToken: refreshToken,
       });
     } catch (error) {
-      console.error("❌ ERROR: Error al iniciar sesión", error);
+      //console.error("❌ ERROR: Error al iniciar sesión", error);
       if (error instanceof RequestError) {
         throw new Error(error.message);
       }

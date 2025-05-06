@@ -4,6 +4,7 @@ export enum TypeProcess {
   UPDATE = "MODIFICAR",
   DELETE = "ELIMINAR",
   READ = "BUSCAR",
+  GET = "OBTENER",
 
   //   LOGOUT = "MODIFICAR_USUARIO",
 }

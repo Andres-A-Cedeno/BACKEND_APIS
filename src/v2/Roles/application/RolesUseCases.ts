@@ -1,8 +1,7 @@
 import type { IRoles } from "../domain/interfaces/IRoles";
 
-
 /**
- * Class to 
+ * Class to
  */
 export class RolesUseCases {
   constructor(private rolesRepository: IRoles) {}
@@ -26,5 +25,9 @@ export class RolesUseCases {
 
   async deleteRoles(idRol: number) {
     return this.rolesRepository.delete(idRol);
+  }
+
+  async getUserRoles() {
+    return this.rolesRepository.getUserRoles();
   }
 }

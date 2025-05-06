@@ -1,3 +1,4 @@
+import { RolesResponse } from "../../infrastructure/repository/RolesRepository";
 import { RoleModel } from "../entities/RolesEntity";
 
 export interface IRoles {
@@ -13,4 +14,6 @@ export interface IRoles {
 
   //Considerar que el metodo de delete, solo es para desactivar el rol información
   delete(idRol: number): Promise<{ message: string }>;
+
+  getUserRoles(): Promise<RolesResponse[]>;
 }

@@ -10,4 +10,9 @@ const rolesController = new RolesController(rolesUseCases);
 
 rolesRoutes.post("/roles", rolesController.createRoles.bind(rolesController));
 rolesRoutes.post("/getRoles", rolesController.getRoles.bind(rolesController));
+rolesRoutes.get(
+  "/get-user-roles",
+  rolesController.getUserRoles.bind(rolesController)
+);
+
 export default rolesRoutes;
