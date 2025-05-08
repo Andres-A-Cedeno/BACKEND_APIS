@@ -5,6 +5,7 @@ export enum TypeProcess {
   DELETE = "ELIMINAR",
   READ = "BUSCAR",
   GET = "OBTENER",
+  CREATE = "CREAR",
 
   //   LOGOUT = "MODIFICAR_USUARIO",
 }
