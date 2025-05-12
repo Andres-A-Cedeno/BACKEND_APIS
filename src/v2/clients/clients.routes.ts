@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ClientUseCases } from "./application/client.use-cases";
+import { ClientUseCases } from "./application/Client.use-cases";
 import { ClientRepository } from "./infrastructure/repositories/Client.repository";
 import { ClientController } from "./infrastructure/controllers/Client.controller";
 
@@ -9,7 +9,7 @@ const clientUseCases = new ClientUseCases(new ClientRepository());
 const clientController = new ClientController(clientUseCases);
 
 clientRoutes.get(
-  "/clients",
+  "/get-clients",
   clientController.getClients.bind(clientController)
 );
 

@@ -3,6 +3,10 @@ import { IClientModel } from "../interfaces/client.interface";
 export class ClientModel {
   constructor(private IclientModel: IClientModel) {}
 
+  get customerId() {
+    return this.IclientModel.customers.customer.publicId;
+  }
+
   get customerName() {
     return this.IclientModel.customers.customer.name;
   }
@@ -76,19 +80,19 @@ export class ClientModel {
   }
 
   get userCustomerName() {
-    return this.IclientModel.customers.user.name;
+    return this.IclientModel.customers.owner.name;
   }
 
   set userCustomerName(name: string) {
-    this.IclientModel.customers.user.name = name;
+    this.IclientModel.customers.owner.name = name;
   }
 
   get userCustomerDni() {
-    return this.IclientModel.customers.user.dni;
+    return this.IclientModel.customers.owner.dni;
   }
 
   set userCustomerDni(dni: string) {
-    this.IclientModel.customers.user.dni = dni;
+    this.IclientModel.customers.owner.dni = dni;
   }
 
   get customerSector() {
@@ -97,5 +101,73 @@ export class ClientModel {
 
   set customerSector(sector: string) {
     this.IclientModel.customers.customer.sector = sector;
+  }
+
+  get customerContacts() {
+    return this.IclientModel.customers.customer.contacts;
+  }
+
+  set customerContacts(
+    contacts: IClientModel["customers"]["customer"]["contacts"]
+  ) {
+    this.IclientModel.customers.customer.contacts = contacts;
+  }
+
+  get customerContactsId() {
+    return this.IclientModel.customers.customer.contacts.id;
+  }
+
+  set customerContactsId(id: string) {
+    this.IclientModel.customers.customer.contacts.id = id;
+  }
+
+  get customerContactsFullname() {
+    return this.IclientModel.customers.customer.contacts.fullname;
+  }
+
+  set customerContactsFullname(fullname: string) {
+    this.IclientModel.customers.customer.contacts.fullname = fullname;
+  }
+
+  get customerContactsPosition() {
+    return this.IclientModel.customers.customer.contacts.position;
+  }
+
+  set customerContactsPosition(position: string) {
+    this.IclientModel.customers.customer.contacts.position = position;
+  }
+
+  get customerContactsPhone() {
+    return this.IclientModel.customers.customer.contacts.phone;
+  }
+
+  set customerContactsPhone(
+    phone: IClientModel["customers"]["customer"]["contacts"]["phone"]
+  ) {
+    this.IclientModel.customers.customer.contacts.phone = phone;
+  }
+
+  get customerContactsEmail() {
+    return this.IclientModel.customers.customer.contacts.email;
+  }
+
+  set customerContactsEmail(email: string) {
+    this.IclientModel.customers.customer.contacts.email = email;
+  }
+
+  get customerContactsIsProspect() {
+    return this.IclientModel.customers.customer.contacts.isProspect;
+  }
+
+  set customerContactsIsProspect(isProspect: string) {
+    this.IclientModel.customers.customer.contacts.isProspect = isProspect;
+  }
+
+  get customerContactsStatus() {
+    return this.IclientModel.customers.customer.contacts.status;
+  }
+
+  set customerContactsStatus(status: boolean) {
+    this.IclientModel.customers.customer.contacts.status = status;
   }
 }

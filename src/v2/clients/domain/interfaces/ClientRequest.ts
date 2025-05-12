@@ -1,61 +1,50 @@
-export interface ClientRequest {
-  id: number;
-  name: string;
-  email: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+import { ClientModel } from "../entities/Client.entity";
+import { IClientModel } from "./client.interface";
+
+interface ClientRequest {
+  nombreCliente: string;
+  cedulaUsuario: string;
+  RUC: number;
+  tipo: string;
+  sector: string;
+  dirEnvio: string;
+  cdadEnvio: string;
+  dirFactu: string;
+  paisEnvio: string;
+  cdadFactu: string;
+  paisFactu: string;
 }
 
+export class ClientDTO {
+  constructor(public data: ClientRequest) {}
 
-class ClientDTO {
-    constructor(public data: any) {}
-  
-    // Mapeo directo del DTO al modelo, sin necesidad de métodos adicionales
-    toClientModel(): ClientModel {
-      const clientModel: IClientModel = {
-        customers: {
-          customer: {
-            name: this.data.nombreCliente,
-            type: this.data.tipo,
-            RUC: this.data.RUC,
-            billing: {
-              address: this.data.dirFactu,
-              city: this.data.cdadFactu,
-              country: this.data.paisFactu,
-            },
-            shipping: {
-              address: this.data.dirEnvio,
-              city: this.data.cdadEnvio,
-              country: this.data.paisEnvio,
-            },
-            sector: this.data.sector,
+  // Mapeo directo del DTO al modelo, sin necesidad de métodos adicionales
+  toClientModel(): ClientModel {
+    const clientModel: IClientModel = {
+      customers: {
+        customer: {
+          name: this.data.nombreCliente,
+          type: this.data.tipo,
+          RUC: this.data.RUC,
+          billing: {
+            address: this.data.dirFactu,
+            city: this.data.cdadFactu,
+            country: this.data.paisFactu,
           },
-          user: {
-            name: this.data.nombreCliente,
-            dni: this.data.cedulaUsuario,
+          shipping: {
+            address: this.data.dirEnvio,
+            city: this.data.cdadEnvio,
+            country: this.data.paisEnvio,
           },
+          sector: this.data.sector,
         },
-      };
-  
-      return new ClientModel(clientModel);
-    }
-  }
+        owner: {
+          name: this.data.nombreCliente,
+          dni: this.data.cedulaUsuario,
+        },
+      },
+    };
 
-{
-    "nombreCliente": "Juan Pérez",
-    "cedulaUsuario": "123",
-    "RUC": 1234567890,
-    "tipo": "Consumidor Final",
-    "sector": "Tecnología",
-    "dirEnvio": "Calle Falsa 123, Edificio A, Piso 4",
-    "cdadEnvio": "Lima",
-    "dirFactu": "Avenida Siempre Viva 456",
-    "paisEnvio": "Perú",
-    "cdadFactu": "Arequipa",
-    "paisFactu": "Perú"
+    return new ClientModel(clientModel);
   }
-  
+}

@@ -22,12 +22,12 @@ export class ClientRepository implements IClientRequest {
    */
   async createClient(client: ClientModel): Promise<{ message: string }> {
     try {
-      console.log("Datos recibidos repository", client as ClientModel);
       const request = await this.pool
         .request()
-        .input("ou_nombreCliente", sql.VarChar, client.userCustomerName)
-        .input("ou_cedulaUsuario", sql.VarChar, client.userCustomerDni)
-        .input("ou_RUC", sql.VarChar, client.customerRUC)
+        .input("ou_uuid", sql.Int, client.customerId)
+        .input("ou_nombreCliente", sql.VarChar, client.customerName)
+        .input("ou_cedulaUsuario", sql.BigInt, client.userCustomerDni)
+        .input("ou_RUC", sql.BigInt, client.customerRUC)
         .input("ou_tipo", sql.VarChar, client.customerType)
         .input("ou_tipoProceso", sql.VarChar, TypeProcess.CREATE)
         .input("ou_sector", sql.VarChar, client.customerSector)
@@ -37,7 +37,7 @@ export class ClientRepository implements IClientRequest {
         .input("ou_dirFactu", sql.VarChar, client.customerBillingAddress)
         .input("ou_cdadFactu", sql.VarChar, client.customerBillingCity)
         .input("ou_paisFactu", sql.VarChar, client.customerBillingCountry)
-        .execute("CREAR_ACTUALIZAR_CLIENTES");
+        .execute("SP_CREAR_ACTUALIZAR_CLIENTES");
 
       return { message: "Cliente creado correctamente" };
     } catch (error) {
@@ -47,16 +47,26 @@ export class ClientRepository implements IClientRequest {
   }
 
   updateClient(id: number, client: ClientModel): Promise<{ message: string }> {
-    throw new Error("Method not implemented.");
+    try {
+      throw new Error("Method not implemented.");
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getClients(): Promise<ClientModel[]> {
     try {
-      const request = await this.pool.request().execute("SP_BUSCAR_CLIENTES");
+      const request = await this.pool
+        .request()
+        .input("ou_usuario", sql.BigInt, 1)
+        .input("ou_idioma", sql.VarChar, null)
+        .execute("SP_BUSCAR_CLIENTES");
+
       const jsonKey = Object.keys(request.recordset[0])[0];
       const clientsData = JSON.parse(request.recordset[0][jsonKey]);
       return clientsData;
     } catch (error) {
+      console.error(error);
       throw new Error("No se pudo obtener los clientes");
     }
   }
